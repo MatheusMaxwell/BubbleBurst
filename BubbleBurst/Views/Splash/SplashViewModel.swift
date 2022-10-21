@@ -26,6 +26,7 @@ final class SplashViewModel: ObservableObject {
         }
     
     func callButtonPlay(){
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)){
             self.state.isCallButtonPlay = true
         }
@@ -33,6 +34,12 @@ final class SplashViewModel: ObservableObject {
     
     func callHomeView(){
         self.state.isNavigationToHome = true
+    }
+    
+    func getStoreRecord() -> Int{
+        let defaults = UserDefaults.standard
+        
+        return defaults.integer(forKey: "record")
     }
 
 }

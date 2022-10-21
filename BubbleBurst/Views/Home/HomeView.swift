@@ -55,6 +55,13 @@ struct HomeView: View {
                 
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .top)
+            if model.bindings.victories.wrappedValue > 0{
+                Text("\(model.bindings.victories.wrappedValue)")
+                    .font(.system(size: 150))
+                    .foregroundColor(Color.white)
+                    .fontWeight(.bold)
+                    .hiddenConditionally(isHidden: !model.bindings.showVictory.wrappedValue)
+            }
         }
         .onAppear{
             model.createBubbleList()
@@ -92,8 +99,9 @@ struct HomeView: View {
                     model.incrementCount()
                     model.bindings.bubbleList.wrappedValue[position].isClicked = true
                     if(model.isFinishedClickBubbles()){
-                        model.invalidadeTimer()
+                        model.invalidadeTimer(isRestoreVictories: false)
                         model.restoreList()
+                        model.incrementVictory()
                     }
                 }
                 else{

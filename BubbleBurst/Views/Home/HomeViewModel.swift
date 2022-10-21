@@ -28,14 +28,18 @@ final class HomeViewModel: ObservableObject {
             count: Binding<Int>,
             bubbleList: Binding<[Bubble]>,
             timeCount: Binding<Int>,
-            messageError: Binding<String>
+            messageError: Binding<String>,
+            victories: Binding<Int>,
+            showVictory: Binding<Bool>
         ) {
             (
                 isShowError: Binding(to: \.state.isShowError, on: self),
                 count: Binding(to: \.state.count, on: self),
                 bubbleList: Binding(to: \.state.bubbleList, on: self),
                 timeCount: Binding(to: \.state.timeCount, on: self),
-                messageError: Binding(to: \.state.messageError, on: self)
+                messageError: Binding(to: \.state.messageError, on: self),
+                victories: Binding(to: \.state.victories, on: self),
+                showVictory: Binding(to: \.state.showVictory, on: self)
             )
         }
     
@@ -151,12 +155,36 @@ final class HomeViewModel: ObservableObject {
         self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             self.state.timeCount -= 1
             if(self.state.timeCount == 0){
-                timer.invalidate()
+                self.invalidadeTimer()
             }
         }
     }
     
-    func invalidadeTimer(){
+    func invalidadeTimer(isRestoreVictories: Bool = true){
         timer.invalidate()
+        if(isRestoreVictories){
+            storeRecord(record: self.state.victories)
+            self.state.victories = 0
+        }
+        
+    }
+    
+    func incrementVictory(){
+        self.state.victories += 1
+        self.state.showVictory = true
+        self.hiddenVictory()
+    }
+    
+    func hiddenVictory(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)){
+            self.state.showVictory = false
+        }
+    }
+    
+    func storeRecord(record: Int){
+        let defaults = UserDefaults.standard
+        if(defaults.integer(forKey: "record") < record){
+            defaults.set(record, forKey: "record")
+        }
     }
 }

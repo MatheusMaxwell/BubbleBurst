@@ -11,6 +11,8 @@ struct HomeViewState {
     var bubbleList = [Bubble]()
     var messageError = "Seu tempo acabou."
     var timeCount = INITIAL_STATE_TIME_COUNT
+    var victories = 0
+    var showVictory = false
     
     static let INITIAL_STATE_TIME_COUNT = 1000
 }

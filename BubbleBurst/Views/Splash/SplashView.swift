@@ -25,9 +25,12 @@ struct SplasView: View {
                     Button(action: model.callHomeView){
                         Text("JOGAR")
                     }
-                    .padding()
+                    .padding(8)
                     .background(RoundedRectangle(cornerRadius: 4)
                         .foregroundColor(Color.gray.opacity(0.3)))
+                    Text("Seu recorde é: \(model.getStoreRecord())")
+                        .foregroundColor(Color.white)
+                    
                 }
             }
             NavigationLink(
