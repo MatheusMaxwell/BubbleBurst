@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct BubbleBurstApp: App {
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView{
+                SplasView(model: .init())
+            }
+            .navigationViewStyle(.stack)
         }
+        
     }
 }
